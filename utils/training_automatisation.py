@@ -25,13 +25,14 @@ def run_experiment(name, spec_model, X_train, y_train, X_test, test_df,
     if param_grid:
         # grid search: picks the best config, then refits it on the whole X_train
         search = GridSearchCV(
-            model,
-            param_grid,
-            scoring="roc_auc",
-            cv=cv,
-            n_jobs=-1,
-            refit=True,
-        )
+    model,
+    param_grid,
+    scoring="roc_auc",
+    cv=cv,
+    n_jobs=2,
+    pre_dispatch=1,
+    refit=True,
+)
         search.fit(X_train, y_train)
 
         final_model = search.best_estimator_
