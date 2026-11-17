@@ -7,6 +7,8 @@ import pandas as pd
 from sklearn.base import clone
 from sklearn.model_selection import GridSearchCV, cross_val_score
 
+from utils.config import EXPORT_DIR
+
 
 def log_run(row: dict, registry_path: Path):
     """Add or replace a row in the registry CSV (one row per model name)."""
@@ -55,7 +57,7 @@ def run_experiment(name, spec_model, X_train, y_train, X_test, test_df,
 
     # predict on the test set
     test_proba = final_model.predict_proba(X_test)[:, 1]
-    predictions_path = Path(data_dir) / f"{name}_predictions.csv"
+    predictions_path = Path(EXPORT_DIR) / f"{name}_predictions.csv"
     pd.DataFrame({id_column: test_df[id_column],
                   "is_fraud": test_proba}).to_csv(predictions_path, index=False)
 
@@ -70,7 +72,7 @@ def run_experiment(name, spec_model, X_train, y_train, X_test, test_df,
             "best_params": str(best_params),
             "date": datetime.now().strftime("%Y-%m-%d %H:%M"),
         },
-        registry_path=Path(data_dir) / "model_registry.csv",
+        registry_path=Path(EXPORT_DIR) / "model_registry.csv",
     )
     print(f"{name}: ROC-AUC = {val_mean:.4f} ± {val_std:.4f}")
     if best_params:
