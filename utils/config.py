@@ -9,7 +9,7 @@ kaggle kernels output "p00l000/kaggle-playground-11-26" -p ./results
 """
 
 ON_KAGGLE = os.path.exists("/kaggle/working")
-DATASET_NAME = "kaggle_playground_11_26_perso/data"
+DATASET_NAME = "kaggle-playground-11-26-perso/data"
 
 if ON_KAGGLE:
     EXPORT_DIR = "/kaggle/working"
