@@ -5,6 +5,7 @@ DEST = "/tmp/repo"          # /tmp so the repo isn't included in the output
 NOTEBOOK = "src/train.ipynb"    # path of your notebook inside the repo
 
 subprocess.run(["git", "clone", "--depth", "1", REPO, DEST], check=True)
+env = {**os.environ, "PYTHONPATH": f"{DEST}"}
 
 if os.path.exists(f"{DEST}/requirements.txt"):
     subprocess.run([sys.executable, "-m", "pip", "install", "-q", "-r", f"{DEST}/requirements.txt"], check=True)
