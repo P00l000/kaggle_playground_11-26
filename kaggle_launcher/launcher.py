@@ -13,7 +13,7 @@ if os.path.exists(f"{DEST}/requirements.txt"):
 os.chdir(DEST)
 env = {**os.environ, "PYTHONPATH": DEST}
 subprocess.run([
-    sys.executable, "-m", "jupyter",subprocess.run(["ls", "-R", "/kaggle/input"]), "nbconvert",
+    sys.executable, "-m", "jupyter","ls", "-R", "/kaggle/input", "nbconvert",
     "--to", "notebook", "--execute", NOTEBOOK,
     "--output-dir", "/kaggle/working",
     "--output", "result.ipynb",
