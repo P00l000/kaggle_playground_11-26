@@ -48,8 +48,9 @@ def run_experiment(name, spec_model, X_train, y_train, X_test, test_df,
         best_params = {}
         val_mean, val_std = scores.mean(), scores.std()
 
-    # save the weights (the pipeline includes the preprocessing)
+    # save the weights 
     weights_path = Path(models_dir) / f"{name}.joblib"
+    models_dir.mkdir(parents=True, exist_ok=True) 
     joblib.dump(final_model, weights_path)
 
     # predict on the test set
