@@ -60,7 +60,7 @@ def run_experiment(name, spec_model, X_train, y_train, X_test, test_df,
     param_grid,
     scoring="roc_auc",
     cv=cv,
-    n_jobs=2,
+    n_jobs=1,
     pre_dispatch=1,
     refit=True,
 )
@@ -73,7 +73,7 @@ def run_experiment(name, spec_model, X_train, y_train, X_test, test_df,
     else:
         # no grid: plain cross-validation, then refit on the whole X_train
         scores = cross_val_score(model, X_train, y_train,
-                                 cv=cv, scoring="roc_auc", n_jobs=-1)
+                                 cv=cv, scoring="roc_auc", n_jobs=1)
         final_model = clone(model).fit(X_train, y_train)
         best_params = {}
         val_mean, val_std = scores.mean(), scores.std()
