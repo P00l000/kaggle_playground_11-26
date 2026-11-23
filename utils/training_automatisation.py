@@ -5,8 +5,11 @@ from pathlib import Path
 import joblib
 import pandas as pd
 from sklearn.base import clone
-from sklearn.model_selection import GridSearchCV, cross_val_score
-
+from sklearn.model_selection import (
+    GridSearchCV,
+    StratifiedShuffleSplit,
+    cross_val_score,
+)
 from utils.config import EXPORT_DIR
 
 
@@ -25,6 +28,28 @@ def run_experiment(name, spec_model, X_train, y_train, X_test, test_df,
     model = spec_model["model"]
     param_grid = spec_model.get("param_grid")
 
+    tabpfn_config = spec_model.get("tabpfn")
+
+    if tabpfn_config:
+        max_rows = tabpfn_config.get("max_training_rows", 10_000)
+        max_features = tabpfn_config.get("max_features", 500)
+
+        if len(X_train) > max_rows:
+            splitter = StratifiedShuffleSplit(
+                n_splits=1,
+                train_size=max_rows,
+                random_state=42,
+            )
+            subset_idx, _ = next(splitter.split(X_train, y_train))
+            X_train = X_train.iloc[subset_idx]
+            y_train = y_train.iloc[subset_idx]
+
+        if X_train.shape[1] > max_features:
+            variances = X_train.var(numeric_only=True)
+            retained_columns = variances.nlargest(max_features).index
+            X_train = X_train.loc[:, retained_columns]
+            X_test = X_test.loc[:, retained_columns]
+    
     if param_grid:
         # grid search: picks the best config, then refits it on the whole X_train
         search = GridSearchCV(
