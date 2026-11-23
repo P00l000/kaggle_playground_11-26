@@ -9,7 +9,7 @@ kaggle kernels output "p00l000/kaggle-playground-11-26" -p ./results
 """
 
 import os
-from utils.env import TABPFN_TOKEN 
+
 ON_KAGGLE = os.path.exists("/kaggle/working")
 DATASET_NAME = "kaggle-playground-11-26-perso/data"
 
@@ -19,6 +19,7 @@ if ON_KAGGLE:
     os.environ["TABPFN_TOKEN"] = UserSecretsClient().get_secret("TABPFN_TOKEN")
     DATA_DIR = f"/kaggle/input/{DATASET_NAME}"
 else:
+    from utils.env import TABPFN_TOKEN 
     EXPORT_DIR = "/home/paul/pers/kaggle.playground.11.26/export"
     DATA_DIR = "/home/paul/pers/kaggle.playground.11.26/data"
     os.environ["TABPFN_TOKEN"] = TABPFN_TOKEN
