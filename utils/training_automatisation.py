@@ -12,7 +12,7 @@ from sklearn.model_selection import (
     cross_val_score,
 )
 from utils.config import EXPORT_DIR
-from utils.env import TABPFN_TOKEN
+# from utils.env import TABPFN_TOKEN
 
 
 def log_run(row: dict, registry_path: Path):
