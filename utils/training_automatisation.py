@@ -1,7 +1,8 @@
 from datetime import datetime
+import os
 from pathlib import Path
 
-
+import os
 import joblib
 import pandas as pd
 from sklearn.base import clone
@@ -11,6 +12,7 @@ from sklearn.model_selection import (
     cross_val_score,
 )
 from utils.config import EXPORT_DIR
+from utils.env import TABPFN_TOKEN
 
 
 def log_run(row: dict, registry_path: Path):
@@ -25,6 +27,7 @@ def log_run(row: dict, registry_path: Path):
 
 def run_experiment(name, spec_model, X_train, y_train, X_test, test_df,
                    id_column, models_dir, data_dir, cv=5):
+    # os.environ["TABPFN_TOKEN"] = TABPFN_TOKEN
     model = spec_model["model"]
     param_grid = spec_model.get("param_grid")
 
