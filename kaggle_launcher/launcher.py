@@ -22,10 +22,20 @@ if os.path.exists(f"{DEST}/requirements.txt"):
 
 os.chdir(DEST)
 env = {**os.environ, "PYTHONPATH": DEST}
+env = {**os.environ, "PYTHONPATH": DEST}
+
 subprocess.run([
-    sys.executable, "-m", "jupyter", "nbconvert",
-    "--to", "notebook", "--execute", NOTEBOOK,
-    "--output-dir", "/kaggle/working",
-    "--output", "result.ipynb",
-    "--ExecutePreprocessor.timeout=-1",   # important, see below
-], check=True)
+    sys.executable,
+    "-m",
+    "jupyter",
+    "nbconvert",
+    "--to",
+    "notebook",
+    "--execute",
+    NOTEBOOK,
+    "--output-dir",
+    "/kaggle/working",
+    "--output",
+    "result.ipynb",
+    "--ExecutePreprocessor.timeout=-1",
+], env=env, check=True)
